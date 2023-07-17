@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>MovieCatalogServlet</servlet-name>
-        <servlet-class>patterns.example.servlet.MoviesCatalogServlet</servlet-class>
+        <servlet-class>patterns.refactoring.servlet.MoviesCatalogServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -16,7 +16,7 @@
 
     <servlet>
         <servlet-name>MovieCatalogApiServlet</servlet-name>
-        <servlet-class>patterns.example.servlet.ApiMovieCatalogServlet</servlet-class>
+        <servlet-class>patterns.refactoring.servlet.ApiMovieCatalogServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -26,7 +26,7 @@
 
     <servlet>
         <servlet-name>GetMovieServlet</servlet-name>
-        <servlet-class>patterns.example.servlet.MovieServlet</servlet-class>
+        <servlet-class>patterns.refactoring.servlet.MovieServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
