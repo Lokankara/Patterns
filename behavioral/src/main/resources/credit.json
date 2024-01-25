@@ -1,0 +1,8 @@
+{
+  "creditCard": {
+    "cvv": "123",
+    "name": "Bob",
+    "cardNumber": "1234567890123456",
+    "dateOfExpiry": "12/24"
+  }
+}
