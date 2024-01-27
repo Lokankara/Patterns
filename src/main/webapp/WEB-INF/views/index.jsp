@@ -5,7 +5,7 @@
   Time: 6:22 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="patterns.refactoring.model.entity.Movie" %>
+<%@ page import="patterns.model.entity.Movie" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>

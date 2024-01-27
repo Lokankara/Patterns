@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>patterns.refactoring</groupId>
+    <groupId>patterns</groupId>
     <artifactId>PatternsTask</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -25,7 +25,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <servlet-api-version>2.5</servlet-api-version>
         <mockito.version>4.11.0</mockito.version>
-        <exec.mainClass>patterns.refactoring.Main</exec.mainClass>
+        <exec.mainClass>patterns.Main</exec.mainClass>
         <jackson.version>2.14.0</jackson.version>
         <log.version>2.20.0</log.version>
     </properties>
