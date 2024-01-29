@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://oregon-postgres.render.com:5432/book_apib
+    username: admin
+    password: gaVirwBZUgu9BIsZWbcMgTZmLu2E8nY5
+
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+
+db:
+  url: jdbc:postgresql://oregon-postgres.render.com:5432/cinema_6con
+  password: gt1LzMdbctIFPmxo9rChG4BGySVdjTB6
+  driver: org.postgresql.Driver
+  username: cinema_6con_user
+  maxTotal: 10
+  initSize: 3
