@@ -12,4 +12,9 @@ import lombok.NoArgsConstructor;
 public final class Actor {
     private Long actorId;
     private String name;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

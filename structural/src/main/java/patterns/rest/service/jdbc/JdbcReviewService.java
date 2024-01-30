@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import patterns.rest.model.entity.Actor;
 import patterns.rest.model.entity.Review;
-import patterns.rest.repository.dao.factory.ReviewDao;
+import patterns.rest.repository.factory.ReviewDao;
 import patterns.rest.service.ReviewService;
 
 import java.util.List;

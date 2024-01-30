@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import patterns.rest.model.entity.Book;
 import patterns.rest.model.dto.BookResponse;
-import patterns.rest.repository.BookRepository;
+import patterns.rest.repository.jpa.BookRepository;
 import patterns.rest.service.mapper.BookMapper;
 
 import java.util.List;

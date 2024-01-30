@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Movie Search</title>
+</head>
+<body>
+<table>
+  <thead>
+  <tr>
+    <th>Original Title</th>
+    <th>Poster Path</th>
+    <th>Overview</th>
+    <th>Backdrop Path</th>
+    <th>Title</th>
+    <th>Original Language</th>
+    <th>ID</th>
+    <th>Adult</th>
+    <th>Release Date</th>
+    <th>Vote Average</th>
+    <th>Vote Count</th>
+    <th>Popularity</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="movie : ${movies}">
+    <td th:text="${movie.originalTitle}"></td>
+    <td><img style="cursor: pointer"
+            th:src="@{'https://image.tmdb.org/t/p/w200/' + ${movie.posterPath}}"
+            alt=""
+             th:data-title="${movie.title}"
+             onclick="saveMovieDetailsToServer(this.getAttribute('data-title'))">
+    </td>
+    <td th:text="${movie.overview}"></td>
+    <td><img th:src="@{'https://image.tmdb.org/t/p/w300/' + ${movie.backdropPath}}"
+            alt=""></td>
+    <td th:text="${movie.title}"></td>
+    <td th:text="${movie.originalLanguage}"></td>
+    <td th:text="${movie.id}"></td>
+    <td th:text="${movie.adult}"></td>
+    <td th:text="${movie.releaseDate}"></td>
+    <td th:text="${movie.voteAverage}"></td>
+    <td th:text="${movie.voteCount}"></td>
+    <td th:text="${movie.popularity}"></td>
+  </tr>
+  </tbody>
+</table>
+<script th:inline="javascript">
+    function saveMovieDetailsToServer(movieTitle) {
+        fetch("/movies/search", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `movieName=${encodeURIComponent(movieTitle)}`,
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Movie details saved to server:', data);
+            })
+            .catch(error => {
+                console.error('Error saving movie details to server:', error);
+            });
+    }
+</script>
+</body>
+</html>

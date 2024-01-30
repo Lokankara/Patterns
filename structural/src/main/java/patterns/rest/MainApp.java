@@ -1,5 +1,6 @@
 package patterns.rest;
 
+import lombok.extern.slf4j.Slf4j;
 import patterns.rest.factory.MovieType;
 import patterns.rest.factory.MovieTypeFactory;
 import patterns.rest.factory.Type;
@@ -15,9 +16,9 @@ import java.util.logging.Logger;
 
 import static java.util.Arrays.asList;
 
+@Slf4j
 public class MainApp {
 
-    private static final Logger log = Logger.getLogger(MainApp.class.getName());
     private static final MovieResponse MOVIE_RESPONSE = new MovieResponse();
 
     public static void main(String[] args) {
@@ -26,7 +27,7 @@ public class MainApp {
         MovieType child = factory.create("Child");
         MovieType new_release = factory.create("New Release");
         initData();
-        List<Movie> movies = MOVIE_RESPONSE.getMovies();
+        List<Movie> movies = MOVIE_RESPONSE.getMovieList();
         List<Rental> rentals = List.of(new Rental(1L, movies.get(0), 1),
                 new Rental(2L, movies.get(1), 4),
                 new Rental(3L, movies.get(2), 5));

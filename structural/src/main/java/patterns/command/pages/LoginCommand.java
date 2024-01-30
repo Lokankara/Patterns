@@ -2,12 +2,11 @@ package patterns.command.pages;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.logging.Logger;
-
+@Slf4j
 public class LoginCommand
         implements Command {
-    private static final Logger log = Logger.getLogger(LoginCommand.class.getName());
 
     @Override
     public String execute(
@@ -16,8 +15,8 @@ public class LoginCommand
         Object errorPage = request.getSession().getAttribute("errorPage");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        log.info(email + password);
-        log.warning(errorPage.toString());
+        log.info("{} {}" , email, password);
+        log.warn(errorPage.toString());
         return "login";
     }
 }

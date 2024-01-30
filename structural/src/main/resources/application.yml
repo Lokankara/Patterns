@@ -1,24 +1,28 @@
 spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://oregon-postgres.render.com:5432/book_apib
     username: admin
     password: gaVirwBZUgu9BIsZWbcMgTZmLu2E8nY5
 
-
   jpa:
-    properties:
-      hibernate:
-        format_sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
     hibernate:
       ddl-auto: update
     show-sql: true
     open-in-view: false
 
-db:
-  url: jdbc:postgresql://oregon-postgres.render.com:5432/cinema_6con
-  password: gt1LzMdbctIFPmxo9rChG4BGySVdjTB6
-  driver: org.postgresql.Driver
-  username: cinema_6con_user
-  maxTotal: 10
-  initSize: 3
+api:
+  key: 249f222afb1002186f4d88b2b5418b55
+  baseApi: https://api.themoviedb.org/3/search/movie

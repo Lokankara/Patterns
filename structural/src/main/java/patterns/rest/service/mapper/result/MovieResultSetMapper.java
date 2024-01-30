@@ -34,12 +34,14 @@ public class MovieResultSetMapper
             String title = resultSet.getString("title");
             Type priceCode = Type.valueOf(resultSet.getString("price_code"));
             String[] genreNames = resultSet.getString("genre_name").split(",");
-            List<Genre> genres = Arrays.stream(genreNames)
-                                       .map(genreName -> genreMapper.mapRow(resultSet))
-                                       .filter(Objects::nonNull)
-                                       .toList();
+            List<Genre> genres = Arrays
+                    .stream(genreNames)
+                    .map(genreName -> genreMapper.mapRow(resultSet))
+                    .filter(Objects::nonNull)
+                    .toList();
             Review review = reviewMapper.mapRow(resultSet);
-            return Movie.builder()
+            return Movie
+                    .builder()
                     .movieId(id)
                     .title(title)
                     .review(review)
@@ -59,13 +61,21 @@ public class MovieResultSetMapper
         String[] genreNames = request.getParameterValues("genre_name");
         List<Genre> genres = new ArrayList<>();
         if (genreNames != null) {
-            genres = Arrays.stream(genreNames)
+            genres = Arrays
+                    .stream(genreNames)
                     .map(genreName -> genreMapper.mapper(request))
                     .filter(Objects::nonNull)
                     .toList();
         }
         Review review = reviewMapper.mapper(request);
-        return Movie.builder().movieId(id).review(review).priceCode(priceCode).title(title).genres(genres).build();
+        return Movie
+                .builder()
+                .movieId(id)
+                .review(review)
+                .priceCode(priceCode)
+                .title(title)
+                .genres(genres)
+                .build();
     }
 
     public Optional<Movie> join(List<Movie> movies) {
@@ -86,7 +96,8 @@ public class MovieResultSetMapper
             }
         }
         review.setActors(new ArrayList<>(new HashSet<>(allActors)));
-        Movie build = Movie.builder()
+        Movie build = Movie
+                .builder()
                 .movieId(firstMovie.getMovieId())
                 .review(review)
                 .genres(new ArrayList<>(new HashSet<>(allGenres)))

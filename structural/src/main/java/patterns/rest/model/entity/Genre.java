@@ -30,4 +30,9 @@ public final class Genre {
         movies.remove(movie);
         movie.removeGenre(this);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -1,6 +1,7 @@
 package patterns.rest.service.mapper.result;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import patterns.rest.exception.DataException;
 import patterns.rest.model.entity.Actor;
@@ -18,10 +19,10 @@ import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class ReviewResultSetMapper
         extends ResultSetMapper<Review> {
-    private static final Logger log = Logger.getLogger(ReviewResultSetMapper.class.getName());
     private static final String[] reviewFields = {"country", "overview",
             "director", "backdrop_path", "rating", "actor_name", "review_id"};
 
@@ -45,7 +46,7 @@ public class ReviewResultSetMapper
                               rating, actors);
         } catch (SQLException e){
             String message = "An error occurred while accessing the data: " + e.getMessage();
-            log.warning(message);
+            log.warn(message);
             throw new DataException(message);
         }
     }

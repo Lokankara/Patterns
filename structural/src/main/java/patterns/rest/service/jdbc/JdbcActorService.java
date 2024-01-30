@@ -3,7 +3,7 @@ package patterns.rest.service.jdbc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import patterns.rest.model.entity.Actor;
-import patterns.rest.repository.dao.factory.ActorDao;
+import patterns.rest.repository.factory.ActorDao;
 import patterns.rest.service.ActorService;
 
 import java.util.List;

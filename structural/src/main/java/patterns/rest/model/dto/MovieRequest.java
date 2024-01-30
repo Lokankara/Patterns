@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import patterns.rest.factory.Type;
+import patterns.rest.model.entity.Actor;
 import patterns.rest.model.entity.Genre;
 import patterns.rest.model.entity.Review;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class MovieRequest {
@@ -27,4 +29,7 @@ public class MovieRequest {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Genre> genres;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Actor> actors;
 }

@@ -1,6 +1,7 @@
 package patterns.rest.service.mapper.result;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import patterns.rest.exception.DataException;
 import patterns.rest.exception.GenreNotFoundException;
@@ -8,13 +9,12 @@ import patterns.rest.model.entity.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
+@Slf4j
 @Component
 public class GenreResultSetMapper
         extends ResultSetMapper<Genre> {
 
-    private static final Logger log = Logger.getLogger(GenreResultSetMapper.class.getName());
     @Override
     public Genre mapRow(ResultSet resultSet) {
         try {
@@ -23,7 +23,7 @@ public class GenreResultSetMapper
                 return Genre.builder().name(name).build();
             }
         } catch (SQLException e) {
-            log.warning(e.getMessage());
+            log.warn(e.getMessage());
             throw new DataException(e.getMessage());
         }
         throw new GenreNotFoundException("Genre Not Found");

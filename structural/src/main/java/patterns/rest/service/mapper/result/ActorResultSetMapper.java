@@ -1,18 +1,18 @@
 package patterns.rest.service.mapper.result;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import patterns.rest.exception.DataException;
 import patterns.rest.model.entity.Actor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
+@Slf4j
 @Component
 public class ActorResultSetMapper
         extends ResultSetMapper<Actor> {
-    private static final Logger log = Logger.getLogger(ActorResultSetMapper.class.getName());
 
     @Override
     Actor mapRow(ResultSet resultSet) {
@@ -21,7 +21,7 @@ public class ActorResultSetMapper
             String name = resultSet.getString("actor_name");
             return new Actor(actorId, name);
         } catch (SQLException e) {
-            log.warning(e.getMessage());
+            log.warn(e.getMessage());
             throw new DataException(e.getMessage());
         }
 
