@@ -1,10 +1,18 @@
 FROM maven:3.8.4-openjdk-17-slim AS build
-COPY . .
+WORKDIR /app
+
+COPY ./mvc ./mvc
+
+WORKDIR /app/mvc
+
 RUN mvn clean package -DskipTests
 
 FROM openjdk:17-slim
-COPY --from=build /structural/target/structural-1.0-SNAPSHOT.jar structural.jar
+WORKDIR /app
 
-EXPOSE 8080 8443
+COPY --from=build /app/mvc/target/mvc-1.0-SNAPSHOT.jar mvc.jar
 
-ENTRYPOINT ["java", "-jar", "structural.jar"]
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "mvc.jar"]
+
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl --fail http://localhost:8080/actuator/health || exit 1

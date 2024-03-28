@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Movie Catalog</title>
+  <link rel="stylesheet" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<h1>Movie Catalog</h1>
+
+<table>
+  <caption></caption>
+  <tr>
+    <th>Poster</th>
+    <th>Title</th>
+    <th>Genre</th>
+    <th>Country</th>
+    <th>Short Description</th>
+    <th>Director</th>
+    <th>Actors</th>
+    <th>Rating</th>
+  </tr>
+  <tr th:each="movie : ${movies}"
+      th:attr="onclick='openMovieDetails(\'' + ${movie.title} + '\')'">
+    <td th:attr="onclick='openMovie(\'' + ${movie.title} + '\')'">
+      <img th:src="@{'https://image.tmdb.org/t/p/w500/' + ${movie.backdropPath}}"
+           alt="Movie"></td>
+    <td><strong th:text="${movie.title}"></strong><br></td>
+    <td th:text="${movie.genres}"><br></td>
+    <td th:text="${movie.country}"><br></td>
+    <td th:text="${movie.overview}"><br></td>
+    <td th:text="${movie.director}"><br></td>
+    <td th:text="${movie.actors}"><br></td>
+    <td th:text="${movie.rating}"><br></td>
+  </tr>
+
+</table>
+
+<script th:inline="javascript">
+    function openMovie(title) {
+        window.location.href = "/search?title=" +
+            encodeURIComponent(title);
+        console.log("openMovie");
+    }
+
+    function openMovieDetails(movieName) {
+        const API_KEY = "249f222afb1002186f4d88b2b5418b55";
+        const API_SEARCH = "https://api.themoviedb.org/3/search/movie?api_key="
+            + API_KEY + "&language=en-US&query=";
+        const searchURL = API_SEARCH + encodeURIComponent(movieName);
+
+        fetch(searchURL)
+            .then(response => response.json())
+            .then(movieDetails => {
+                saveMovieToServer(movieDetails);
+            })
+            .catch(error => {
+                console.error('Error fetching movie details:', error);
+            });
+    }
+
+    function saveMovieToServer(movieDetails) {
+        const allGenreIds = movieDetails.results.map(movieDetail => {
+            const genreIds = Array.isArray(movieDetail.genre_ids) ? movieDetail.genre_ids : [];
+            return {
+                genreIds: genreIds,
+            };
+        });
+
+        const movieDetailsWithGenreIds = movieDetails.results.map((movieDetail, index) => {
+            return {
+                ...movieDetail,
+                genreIds: allGenreIds[index].genreIds,
+            };
+        });
+
+
+        fetch('/movies/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(movieDetailsWithGenreIds),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Movie details saved to server:', data);
+            })
+            .catch(error => {
+                console.error('Error saving movie details to server:', error);
+            });
+    }
+</script>
+</body>
+</html>
