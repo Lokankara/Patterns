@@ -5,7 +5,7 @@ import patterns.factory.gui.button.LinuxButton;
 import patterns.factory.gui.checkbox.CheckBox;
 import patterns.factory.gui.checkbox.LinuxCheckBox;
 
-public class LinuxGUIFactory implements GUIFactory{
+public class LinuxGUIFactory implements GUIFactory {
     @Override
     public Button createButton() {
         return new LinuxButton();
