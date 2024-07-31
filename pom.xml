@@ -23,6 +23,7 @@
     <module>dto</module>
     <module>di</module>
     <module>visitor</module>
+      <module>decorator</module>
   </modules>
 
   <properties>
@@ -92,6 +93,10 @@
       <artifactId>mockito-core</artifactId>
       <version>5.4.0</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
     </dependency>
   </dependencies>
 
