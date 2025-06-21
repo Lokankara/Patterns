@@ -12,13 +12,11 @@ import patterns.injection.service.StringIntegrationService;
 
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ServiceBuildFactoryTest {
 
+    @Test
     void testServicesCreations() {
         ServiceBuildFactory buildFactory = new ServiceBuildFactory();
         Set<Class<?>> services = buildFactory.getServices();
@@ -29,6 +27,7 @@ class ServiceBuildFactoryTest {
         }
     }
 
+    @Test
     void testServiceInstantiations() {
         ServiceBuildFactory buildFactory = new ServiceBuildFactory();
         Set<Class<?>> services = buildFactory.getServices();
@@ -36,8 +35,7 @@ class ServiceBuildFactoryTest {
         for (Class<?> clazz : services) {
             if (!clazz.isInterface()) {
                 assertDoesNotThrow(() -> {
-                    Object service = clazz.getDeclaredConstructor()
-                                          .newInstance();
+                    clazz.getDeclaredConstructor().newInstance();
                 }, "Failed to instantiate service: " + clazz);
             }
         }
@@ -66,7 +64,7 @@ class ServiceBuildFactoryTest {
     void testServiceNotFound() {
         ServiceBuildFactory buildFactory = new ServiceBuildFactory();
         assertThrows(ConstructorException.class,
-                     () -> buildFactory.create(NonExistentService.class));
+                () -> buildFactory.create(NonExistentService.class));
     }
 
     @Test

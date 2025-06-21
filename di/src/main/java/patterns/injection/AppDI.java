@@ -33,8 +33,6 @@ public class AppDI {
         }
 
 
-
-
 //        for (Class<?> clazz : collect) {
 //            if (!clazz.isInterface()) {
 //                try {
