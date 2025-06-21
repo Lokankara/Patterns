@@ -2,6 +2,10 @@ package patterns.factory.dao;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import patterns.factory.dao.model.DatabaseType;
+import patterns.factory.dao.model.MongoDB;
+import patterns.factory.dao.model.MySQL;
+import patterns.factory.dao.model.PostgreSQL;
 
 class DatabaseFactoryCreatorTest {
 

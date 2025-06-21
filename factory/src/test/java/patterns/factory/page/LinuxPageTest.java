@@ -1,5 +1,6 @@
 package patterns.factory.page;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import patterns.factory.gui.button.Button;
@@ -31,13 +32,13 @@ class LinuxPageTest {
     void createLinuxPageButton() {
         Button button = linuxPage.createButton();
         assertNotNull(button);
-        assertTrue(button instanceof LinuxButton);
+        assertInstanceOf(LinuxButton.class, button);
     }
 
     @Test
     void createLinuxPageCheckbox() {
         CheckBox checkbox = linuxPage.createCheckbox();
         assertNotNull(checkbox);
-        assertTrue(checkbox instanceof LinuxCheckBox);
+        assertInstanceOf(LinuxCheckBox.class, checkbox);
     }
 }

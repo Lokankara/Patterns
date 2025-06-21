@@ -1,5 +1,7 @@
 package patterns.factory.dao;
 
+import patterns.factory.dao.model.DatabaseType;
+
 public class DatabaseFactoryCreator {
 
     public static DatabaseFactory getFactory(DatabaseType databaseType) {

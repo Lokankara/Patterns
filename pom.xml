@@ -24,6 +24,8 @@
     <module>di</module>
     <module>visitor</module>
       <module>decorator</module>
+      <module>algorithm</module>
+      <module>proxy</module>
   </modules>
 
   <properties>
