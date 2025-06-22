@@ -5,11 +5,7 @@ import patterns.web.factory.MovieType;
 import patterns.web.factory.MovieTypeFactory;
 import patterns.web.factory.Type;
 import patterns.web.model.dto.MovieResponse;
-import patterns.web.model.entity.Customer;
-import patterns.web.model.entity.Genre;
-import patterns.web.model.entity.Movie;
-import patterns.web.model.entity.Rental;
-import patterns.web.model.entity.Review;
+import patterns.web.model.entity.*;
 
 import java.util.List;
 
@@ -30,7 +26,7 @@ public class MainApp {
         List<Rental> rentals = List.of(new Rental(1L, movies.get(0), 1),
                 new Rental(2L, movies.get(1), 4),
                 new Rental(3L, movies.get(2), 5));
-        Customer customer = new Customer(1L, "Jack Sparrow", rentals);
+        User customer = new User(1L, "Jack Sparrow", rentals);
         String statement = customer.statement();
         log.info(statement);
     }

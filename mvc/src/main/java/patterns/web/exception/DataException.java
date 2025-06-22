@@ -1,8 +1,13 @@
 package patterns.web.exception;
 
-public class DataException
-        extends RuntimeException {
+import java.sql.SQLException;
+
+public class DataException extends RuntimeException {
     public DataException(String message) {
         super(message);
+    }
+
+    public DataException(String message, SQLException e) {
+        super(message, e);
     }
 }

@@ -10,7 +10,12 @@ import patterns.injection.ioc.exception.MultipleBeansForClassException;
 import patterns.injection.ioc.io.BeanDefinitionReader;
 import patterns.injection.ioc.io.XMLBeanDefinitionReader;
 
-import java.util.*;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ClassPathApplicationContext implements ApplicationContext {
     private static final String SETTER_PREFIX = "set";
@@ -116,20 +121,13 @@ public class ClassPathApplicationContext implements ApplicationContext {
                     String setterName = getSetterName(property);
                     Class<?> clazz = instance.getClass();
 
-                    java.lang.reflect.Method setter = null;
-                    for (var method : clazz.getMethods()) {
-                        if (method.getName().equals(setterName) && method.getParameterCount() == 1) {
-                            setter = method;
-                            break;
-                        }
-                    }
+                    Method setter = Arrays.stream(clazz.getMethods()).filter(method -> method.getName().equals(setterName) && method.getParameterCount() == 1).findFirst().orElse(null);
                     if (setter == null) {
                         throw new BeanInstantiationException("No setter found for " + setterName);
                     }
 
                     Class<?> paramType = setter.getParameterTypes()[SETTER_PARAMETER_INDEX];
-                    Object convertedValue = convertValue(value, paramType);
-                    setter.invoke(instance, convertedValue);
+                    setter.invoke(instance, convertValue(value, paramType));
 
                 } catch (Exception e) {
                     throw new BeanInstantiationException("Failed to inject value dependency: " + property + " for bean: " + def.getId(), e);
@@ -164,9 +162,7 @@ public class ClassPathApplicationContext implements ApplicationContext {
                 try {
                     Object instance = bean.getValue();
                     Object refBeanInstance = beans.get(refBeanId).getValue();
-                    String setterName = getSetterName(property);
-                    Class<?> clazz = instance.getClass();
-                    var setter = findSetter(clazz, setterName, refBeanInstance.getClass());
+                    Method setter = findSetter(instance.getClass(), getSetterName(property), refBeanInstance.getClass());
                     setter.invoke(instance, refBeanInstance);
                 } catch (Exception e) {
                     throw new BeanInstantiationException("Failed to inject ref dependency: " + property + " for bean: " + def.getId(), e);

@@ -11,8 +11,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class JdbcCustomerDao
-        implements CustomerDao { // TODO
+public class JdbcCustomerDao implements CustomerDao {
 
     private final JdbcCustomerTemplate template;
 

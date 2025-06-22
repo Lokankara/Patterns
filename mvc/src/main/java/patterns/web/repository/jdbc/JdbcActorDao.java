@@ -12,8 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class JdbcActorDao
-        implements ActorDao {
+public class JdbcActorDao implements ActorDao {
 
     private final JdbcActorTemplate template;
 
