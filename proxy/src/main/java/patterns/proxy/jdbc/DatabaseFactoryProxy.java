@@ -1,4 +1,4 @@
-package patterns.proxy;
+package patterns.proxy.jdbc;
 
 import patterns.factory.dao.DatabaseFactory;
 import patterns.factory.dao.DatabaseFactoryCreator;

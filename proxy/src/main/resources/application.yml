@@ -1,0 +1,18 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://oregon-postgres.render.com:5432/apple_n3hh
+    username: apple_n3hh_user
+    password: k08QpfbyvO5UUugQpVj49srinUKCdQLB
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    open-in-view: false

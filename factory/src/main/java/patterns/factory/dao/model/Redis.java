@@ -12,9 +12,10 @@ import patterns.factory.dao.DatabaseFactoryCreator;
 public record Redis(String url, String user, String password) implements DatabaseConnection {
     @SneakyThrows
     @Override
-    public void connect() {
+    public Connection connect() {
         DatabaseFactory factory = DatabaseFactoryCreator.getFactory(DatabaseType.REDIS);
         Connection redisConnection = DriverManager.getConnection("redis://localhost:6379", "user", "password");
         log.info("Connecting to {} database... {} {}", this.getClass().getSimpleName(), factory, redisConnection);
+        return redisConnection;
     }
 }

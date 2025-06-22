@@ -1,7 +1,9 @@
 package patterns.factory.dao;
 
+import java.sql.Connection;
+
 public interface DatabaseConnection {
-    void connect();
+    Connection connect();
 
     String url();
 
