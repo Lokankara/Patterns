@@ -12,28 +12,15 @@ public class JavaNumberTypeCast {
     private static final String INT = "int";
 
     public static Object castPrimitive(String value, Class<?> clazz) {
-        if (clazz.getName().equals(INT)) {
-            return Integer.valueOf(value);
-        }
-        if (clazz.getName().equals(BOOLEAN)) {
-            return Boolean.valueOf(value);
-        }
-        if (clazz.getName().equals(BYTE)) {
-            return Byte.valueOf(value);
-        }
-        if (clazz.getName().equals(DOUBLE)) {
-            return Double.valueOf(value);
-        }
-        if (clazz.getName().equals(FLOAT)) {
-            return Float.parseFloat(value);
-        }
-        if (clazz.getName().equals(LONG)) {
-            return Long.parseLong(value);
-        }
-        if (clazz.getName().equals(SHORT)) {
-            return Short.parseShort(value);
-        }
-        return null;
+        return switch (clazz.getName()) {
+            case INT -> Integer.valueOf(value);
+            case BOOLEAN -> Boolean.valueOf(value);
+            case BYTE -> Byte.valueOf(value);
+            case DOUBLE -> Double.valueOf(value);
+            case FLOAT -> Float.parseFloat(value);
+            case LONG -> Long.parseLong(value);
+            case SHORT -> Short.parseShort(value);
+            default -> null;
+        };
     }
-
 }

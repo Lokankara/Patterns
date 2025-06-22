@@ -1,11 +1,13 @@
 package patterns.injection.ioc.service;
 
 
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Objects;
 
 @Setter
+@Getter
 public class MailService {
     private int port;
     private String protocol;
@@ -24,8 +26,6 @@ public class MailService {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(port, protocol);
     }
-
 }

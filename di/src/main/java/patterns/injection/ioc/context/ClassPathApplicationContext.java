@@ -4,6 +4,8 @@ package patterns.injection.ioc.context;
 import patterns.injection.ioc.context.cast.JavaNumberTypeCast;
 import patterns.injection.ioc.entity.Bean;
 import patterns.injection.ioc.entity.BeanDefinition;
+import patterns.injection.ioc.entity.BeanPostProcessor;
+import patterns.injection.ioc.exception.BeanInstantiationException;
 import patterns.injection.ioc.exception.MultipleBeansForClassException;
 import patterns.injection.ioc.io.BeanDefinitionReader;
 import patterns.injection.ioc.io.XMLBeanDefinitionReader;
@@ -16,6 +18,7 @@ public class ClassPathApplicationContext implements ApplicationContext {
 
     private Map<String, Bean> beans;
     private BeanDefinitionReader beanDefinitionReader;
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     public ClassPathApplicationContext() {
 
@@ -32,6 +35,18 @@ public class ClassPathApplicationContext implements ApplicationContext {
         instantiateBeans(beanDefinitions);
         injectValueDependencies(beanDefinitions);
         injectRefDependencies(beanDefinitions);
+        for (Map.Entry<String, Bean> entry : beans.entrySet()) {
+            String beanName = entry.getKey();
+            Object bean = entry.getValue().getValue();
+            for (BeanPostProcessor postProcessor : beanPostProcessors) {
+                bean = postProcessor.postProcessAfterInitialization(bean, beanName);
+            }
+            entry.getValue().setValue(bean);
+        }
+    }
+
+    public void addBeanPostProcessor(BeanPostProcessor postProcessor) {
+        beanPostProcessors.add(postProcessor);
     }
 
     @Override
@@ -43,7 +58,7 @@ public class ClassPathApplicationContext implements ApplicationContext {
                 .toList();
 
         if (matches.isEmpty()) {
-            throw new RuntimeException("No bean found for class " + clazz);
+            throw new BeanInstantiationException("No bean found for class " + clazz);
         }
         if (matches.size() > 1) {
             throw new MultipleBeansForClassException("Multiple beans found for class " + clazz);
@@ -55,11 +70,11 @@ public class ClassPathApplicationContext implements ApplicationContext {
     public <T> T getBean(String name, Class<T> clazz) {
         Bean bean = beans.get(name);
         if (bean == null) {
-            throw new RuntimeException("No bean found with name " + name);
+            throw new BeanInstantiationException("No bean found with name " + name);
         }
         Object value = bean.getValue();
         if (!clazz.isInstance(value)) {
-            throw new RuntimeException("Bean " + name + " is not of type " + clazz);
+            throw new BeanInstantiationException("Bean " + name + " is not of type " + clazz);
         }
         return clazz.cast(value);
     }
@@ -68,7 +83,7 @@ public class ClassPathApplicationContext implements ApplicationContext {
     public <T> T getBean(String name) {
         Bean bean = beans.get(name);
         if (bean == null) {
-            throw new RuntimeException("No bean found with name " + name);
+            throw new BeanInstantiationException("No bean found with name " + name);
         }
         return (T) bean.getValue();
     }
@@ -85,7 +100,7 @@ public class ClassPathApplicationContext implements ApplicationContext {
                 Object instance = clazz.getDeclaredConstructor().newInstance();
                 beans.put(def.getId(), new Bean(def.getId(), instance));
             } catch (Exception e) {
-                throw new RuntimeException("Failed to instantiate bean: " + def.getId(), e);
+                throw new BeanInstantiationException("Failed to instantiate bean: " + def.getId(), e);
             }
         }
     }
@@ -101,7 +116,6 @@ public class ClassPathApplicationContext implements ApplicationContext {
                     String setterName = getSetterName(property);
                     Class<?> clazz = instance.getClass();
 
-                    // Find setter method with single parameter, regardless of type
                     java.lang.reflect.Method setter = null;
                     for (var method : clazz.getMethods()) {
                         if (method.getName().equals(setterName) && method.getParameterCount() == 1) {
@@ -110,15 +124,15 @@ public class ClassPathApplicationContext implements ApplicationContext {
                         }
                     }
                     if (setter == null) {
-                        throw new NoSuchMethodException("No setter found for " + setterName);
+                        throw new BeanInstantiationException("No setter found for " + setterName);
                     }
 
-                    Class<?> paramType = setter.getParameterTypes()[0];
+                    Class<?> paramType = setter.getParameterTypes()[SETTER_PARAMETER_INDEX];
                     Object convertedValue = convertValue(value, paramType);
                     setter.invoke(instance, convertedValue);
 
                 } catch (Exception e) {
-                    throw new RuntimeException("Failed to inject value dependency: " + property + " for bean: " + def.getId(), e);
+                    throw new BeanInstantiationException("Failed to inject value dependency: " + property + " for bean: " + def.getId(), e);
                 }
             });
         }
@@ -155,13 +169,13 @@ public class ClassPathApplicationContext implements ApplicationContext {
                     var setter = findSetter(clazz, setterName, refBeanInstance.getClass());
                     setter.invoke(instance, refBeanInstance);
                 } catch (Exception e) {
-                    throw new RuntimeException("Failed to inject ref dependency: " + property + " for bean: " + def.getId(), e);
+                    throw new BeanInstantiationException("Failed to inject ref dependency: " + property + " for bean: " + def.getId(), e);
                 }
             });
         }
     }
 
-    private java.lang.reflect.Method findSetter(Class<?> clazz, String setterName, Class<?> paramType) throws NoSuchMethodException {
+    private java.lang.reflect.Method findSetter(Class<?> clazz, String setterName, Class<?> paramType) throws BeanInstantiationException {
         try {
             return clazz.getMethod(setterName, paramType);
         } catch (NoSuchMethodException e) {
@@ -170,7 +184,7 @@ public class ClassPathApplicationContext implements ApplicationContext {
                     return method;
                 }
             }
-            throw e;
+            throw new BeanInstantiationException("Failed to find Setter " + setterName, e);
         }
     }
 

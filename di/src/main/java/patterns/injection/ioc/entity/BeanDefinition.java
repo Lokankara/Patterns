@@ -29,7 +29,6 @@ public class BeanDefinition {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, beanClassName, dependencies, refDependencies);
     }
 }

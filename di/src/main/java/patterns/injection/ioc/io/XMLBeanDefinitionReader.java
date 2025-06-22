@@ -23,7 +23,6 @@ public class XMLBeanDefinitionReader implements BeanDefinitionReader {
         contextFiles = new ArrayList<>(Arrays.asList(path));
     }
 
-
     @Override
     public List<BeanDefinition> getBeanDefinitions() {
         try {
