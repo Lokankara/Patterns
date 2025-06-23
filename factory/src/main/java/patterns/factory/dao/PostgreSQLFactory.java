@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 
 @AllArgsConstructor
 public class PostgreSQLFactory implements DatabaseFactory {
-
     private final DataSource dataSource;
 
     @Override
@@ -15,3 +14,4 @@ public class PostgreSQLFactory implements DatabaseFactory {
         return new PostgreSQL(url, user, password, dataSource);
     }
 }
+

@@ -25,10 +25,10 @@ class DatabaseFactoryCreatorTest {
     void testPostgreSQLFactoryCreation() {
         DatabaseFactory factory = DatabaseFactoryCreator.getFactory(DatabaseType.POSTGRESQL);
         assertNotNull(factory, "Factory should not be null");
-        DatabaseConnection connection = factory.createConnection("jdbc:postgresql://localhost:5432/mydb", "admin", "root");
+        DatabaseConnection connection = factory.createConnection("jdbc:postgresql://localhost:5432/Postgre", "admin", "root");
 
         assertInstanceOf(PostgreSQL.class, connection, "Connection should be an instance of PostgreSQLConnection");
-        assertEquals("jdbc:postgresql://localhost:5432/mydb", connection.url(), "URL should match");
+        assertEquals("jdbc:postgresql://localhost:5432/Postgre", connection.url(), "URL should match");
         assertEquals("admin", connection.user(), "User should match");
         assertEquals("root", connection.password(), "Password should match");
     }
