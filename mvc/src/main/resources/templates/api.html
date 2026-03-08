@@ -95,7 +95,7 @@
     function filter(respData, filter) {
         return respData.results.filter((movie) => {
             const genreIds = movie.genre_ids;
-            return filter === "" || genreIds.includes(parseInt(filter));
+            return filter === "";
         });
     }
 
