@@ -3,7 +3,7 @@ package patterns.web.factory;
 public class NewReleaseType
         implements MovieType {
     @Override
-    public double getAmount(int daysRented) {
+    public int getAmount(int daysRented) {
         return daysRented * 3;
     }
 

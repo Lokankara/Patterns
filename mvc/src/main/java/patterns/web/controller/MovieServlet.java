@@ -34,8 +34,6 @@ public class MovieServlet
         String title = extractFromUrl(req.getRequestURL().toString());
         List<Movie> movies = movieService.findByTitle(title);
         req.setAttribute("movies", movies);
-        req.getRequestDispatcher("/WEB-INF/templates/index.jsp")
-                .forward(req, resp);
     }
 
     @Override

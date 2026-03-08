@@ -14,7 +14,6 @@ public record Redis(String url, String user, String password) implements Databas
     @Override
     public Connection connect() {
         DatabaseFactory factory = DatabaseFactoryCreator.getFactory(DatabaseType.REDIS);
-        Connection redisConnection = DriverManager.getConnection("redis://localhost:6379", "user", "password");
         log.info("Connecting to {} database... {} {}", this.getClass().getSimpleName(), factory, redisConnection);
         return redisConnection;
     }
