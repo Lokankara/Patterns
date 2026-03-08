@@ -43,7 +43,7 @@ public class XMLBeanDefinitionReader implements BeanDefinitionReader {
     }
 
     class BeanDefinitionHandler extends DefaultHandler {
-        private static final String BEANS = "beans";
+        private static final String BEANS_NAME = "beans";
         private static final String BEAN = "bean";
         private static final String ID = "id";
         private static final String CLASS = "class";
@@ -58,7 +58,7 @@ public class XMLBeanDefinitionReader implements BeanDefinitionReader {
         public void startElement(String uri, String localName, String qName,
                                  Attributes attributes) {
 
-            if (qName.equalsIgnoreCase(BEANS)) {
+            if (qName.equalsIgnoreCase(BEANS_NAME)) {
                 beans = true;
             }
 
@@ -104,7 +104,7 @@ public class XMLBeanDefinitionReader implements BeanDefinitionReader {
         public void endElement(String uri, String localName,
                                String qName) {
             if (qName.equals(BEAN)) {
-                if (!beans) throw new SourceParseException("Root Element " + BEANS + " is not found");
+                if (!beans) throw new SourceParseException("Root Element " + BEANS_NAME + " is not found");
                 beanDefinitions.add(beanDefinition);
                 beanDefinition = new BeanDefinition();
             }
