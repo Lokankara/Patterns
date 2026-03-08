@@ -6,14 +6,11 @@ import patterns.factory.dao.DatabaseFactory;
 import patterns.factory.dao.MongoDBFactory;
 import patterns.factory.dao.MySQLFactory;
 import patterns.factory.dao.PostgreSQLFactory;
-import patterns.factory.dao.RedisFactory;
 
 import javax.sql.DataSource;
-import java.lang.reflect.Constructor;
 
 @AllArgsConstructor
 public enum DatabaseType {
-    REDIS(RedisFactory.class),
     MYSQL(MySQLFactory.class),
     POSTGRESQL(PostgreSQLFactory.class),
     MONGODB(MongoDBFactory.class);
