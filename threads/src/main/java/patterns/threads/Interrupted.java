@@ -14,22 +14,22 @@ public class Interrupted {
         CountDownLatch await = new CountDownLatch(1);
 
         Runnable runnable = () -> {
-            System.out.printf("Interrupted status %s%n",
+            log.info("Interrupted status {}",
                               Thread.currentThread().isInterrupted());
             while (!Thread.currentThread().isInterrupted()) {
                 try {
-                    System.out.printf(
-                            "Worker %s%n", Thread.currentThread().getName());
+                    log.info(
+                            "Worker {}", Thread.currentThread().getName());
                     await.countDown();
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {
-                    System.out.printf(
-                            "InterruptedException, name: %s, status: %s%n",
+                    log.info(
+                            "InterruptedException, name: {}, status: {}",
                             Thread.currentThread().getName(),
                             Thread.currentThread().isInterrupted());
                     Thread.currentThread().interrupt();
-                    System.out.printf(
-                            "InterruptedException, name: %s, status: %s%n",
+                    log.info(
+                            "InterruptedException, name: {}, status: {}",
                             Thread.currentThread().getName(),
                             Thread.currentThread().isInterrupted());
                 }
@@ -38,10 +38,10 @@ public class Interrupted {
         };
         Thread thread = new Thread(runnable);
         thread.start();
-        System.out.printf("MAIN %s%n", thread.getName());
+        log.info("MAIN {}", thread.getName());
         await.await();
         thread.interrupt();
-        System.out.printf("MAIN %s%n", thread.getName());
+        log.info("MAIN {}", thread.getName());
         main.await();
         log.info("App complete");
     }
