@@ -2,6 +2,7 @@ package patterns.injection.factory;
 
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
+import lombok.extern.slf4j.Slf4j;
 import patterns.injection.exception.ConstructorException;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 import static java.lang.reflect.Proxy.newProxyInstance;
 
+@Slf4j
 public class ServiceBuildFactory
         implements AbstractFactory {
 
@@ -24,7 +26,7 @@ public class ServiceBuildFactory
         collect = new HashSet<>(reflections.getSubTypesOf(Object.class));
         for (Class<?> clazz : collect) {
             if (clazz.isInterface()) {
-                System.out.println("Found interface: " + clazz.getName());
+                log.info("Found interface: {}", clazz.getName());
             }
         }
     }

@@ -1,10 +1,12 @@
 package patterns.threads;
 
+import lombok.extern.slf4j.Slf4j;
 import patterns.dto.model.entity.Book;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+@Slf4j
 public class BookQueue {
     public static void main(String[] args) {
         Queue<Book> queue = new PriorityQueue<>();
@@ -22,9 +24,9 @@ public class BookQueue {
         queue.forEach(System.out::println);
 
         queue.remove();
-        System.out.println("After remove " + queue);
+        log.info("After remove {}", queue);
 
         queue.remove();
-        System.out.println("After remove " + queue);
+        log.info("After remove {}", queue);
     }
 }

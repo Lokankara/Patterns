@@ -1,6 +1,12 @@
 package patterns.threads.executor;
 
+import static java.util.concurrent.Executors.newCachedThreadPool;
+import static java.util.concurrent.Executors.newFixedThreadPool;
+import static java.util.concurrent.Executors.newScheduledThreadPool;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -17,11 +23,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static java.util.concurrent.Executors.newCachedThreadPool;
-import static java.util.concurrent.Executors.newFixedThreadPool;
-import static java.util.concurrent.Executors.newScheduledThreadPool;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@Slf4j
 class ExecutorServiceManagerTest {
 
     @Test
@@ -29,7 +31,7 @@ class ExecutorServiceManagerTest {
         Executor executor = Executors.newSingleThreadExecutor();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
-        executor.execute(() -> System.out.println(Thread.currentThread().getName()));
+        executor.execute(() -> log.info(Thread.currentThread().getName()));
         System.out.printf("Main %s%n", Thread.currentThread().getName());
         System.setOut(System.out);
         String actualOutput = outputStream.toString().trim();
@@ -76,18 +78,18 @@ class ExecutorServiceManagerTest {
         CountDownLatch countDownLatch = new CountDownLatch(5);
         ScheduledExecutorService service = newScheduledThreadPool(2);
         ScheduledFuture<?> scheduledFuture =
-                service.scheduleAtFixedRate(() -> countDownLatch.countDown(),
-                                            2,
-                                            1,
-                                            TimeUnit.SECONDS);
+                service.scheduleAtFixedRate(countDownLatch::countDown,
+                        2,
+                        1,
+                        TimeUnit.SECONDS);
         countDownLatch.await(2, TimeUnit.SECONDS);
         scheduledFuture.cancel(true);
         execute(service);
         execute(service);
         execute(service);
-        service.schedule(() -> System.out.println("schedule"),
-                         2,
-                         TimeUnit.SECONDS);
+        service.schedule(() -> log.info("schedule"),
+                2,
+                TimeUnit.SECONDS);
         Future<String> future = service.submit(() -> "Executor");
         assertEquals("Executor", future.get());
     }
@@ -97,10 +99,10 @@ class ExecutorServiceManagerTest {
             throws ExecutionException, InterruptedException {
         ThreadPoolExecutor service =
                 new ThreadPoolExecutor(0,
-                                       5,
-                                       60L,
-                                       TimeUnit.SECONDS,
-                                       new LinkedBlockingQueue<>());
+                        5,
+                        60L,
+                        TimeUnit.SECONDS,
+                        new LinkedBlockingQueue<>());
         execute(service);
         execute(service);
         execute(service);
@@ -138,7 +140,7 @@ class ExecutorServiceManagerTest {
         service.submit(() -> {
             try {
                 TimeUnit.SECONDS.sleep(1);
-                System.out.println(Thread.currentThread().getName());
+                log.info(Thread.currentThread().getName());
             } catch (Exception e) {
                 Thread.currentThread().interrupt();
                 throw new RuntimeException(e);

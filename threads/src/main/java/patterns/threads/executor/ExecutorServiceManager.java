@@ -1,12 +1,15 @@
 package patterns.threads.executor;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+@Slf4j
 public class ExecutorServiceManager {
     public static void main(String[] args) {
         Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(()-> System.out.println(Thread.currentThread().getName()));
-        System.out.printf("Main %s%n", Thread.currentThread().getName());
+        executor.execute(() -> log.info(Thread.currentThread().getName()));
+        log.info("Main {}n", Thread.currentThread().getName());
     }
 }

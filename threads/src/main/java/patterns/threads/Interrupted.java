@@ -1,8 +1,11 @@
 package patterns.threads;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class Interrupted {
 
     public static void main(String[] args)
@@ -40,6 +43,6 @@ public class Interrupted {
         thread.interrupt();
         System.out.printf("MAIN %s%n", thread.getName());
         main.await();
-        System.out.println("App complete");
+        log.info("App complete");
     }
 }
