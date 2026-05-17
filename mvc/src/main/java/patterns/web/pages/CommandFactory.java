@@ -12,7 +12,6 @@ public class CommandFactory {
     public static Command getCommand(
             HttpServletRequest req,
             HttpServletResponse resp) {
-        log.info(resp.getContentType());
         String parameter = req.getParameter("command");
         if (parameter != null) {
             try {
@@ -28,7 +27,6 @@ public class CommandFactory {
             HttpServletRequest req,
             HttpServletResponse resp) {
         String command = req.getParameter("command");
-        log.info(resp.getContentType());
         if (command != null) {
             try {
                 return FilterEnum.valueOf(command).getFilter();
